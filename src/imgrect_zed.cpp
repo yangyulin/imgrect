@@ -9,7 +9,6 @@
 #include <opencv2/imgproc.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
-#include <boost/range/iterator_range.hpp>
 #include <yaml-cpp/yaml.h>
 #include <boost/lexical_cast.hpp>
 
@@ -45,6 +44,7 @@ int main( int argc, char** argv ){
     imshow("before Right", img2);
 
     //try to use YAML-cpp to read the config file
+
     string dir = "/home/linde/project/imgrect/data/zed/";
 
     string basename = "calib_cam_to_cam.txt";
