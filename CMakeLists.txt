@@ -21,6 +21,7 @@ else()
     message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
+file(GLOB_RECURSE thirdparty_sources thirdparty/yaml-cpp/*.cpp)
 
 INCLUDE_DIRECTORIES(${CHOLMOD_INCLUDE_DIR}
                     ${CSPARSE_INCLUDE_DIR}
@@ -28,18 +29,20 @@ INCLUDE_DIRECTORIES(${CHOLMOD_INCLUDE_DIR}
                     ${G2O_INCLUDE_DIRS}
                     ${EIGEN3_INCLUDE_DIR}
                     ${Boost_INCLUDE_DIRS}
+                    thirdparty
                     include)
 
 ADD_EXECUTABLE( imgrect_zed
-                src/imgrect_zed.cpp
-                )
+                 src/imgrect_zed.cpp
+                ${thirdparty_sources})
 
 TARGET_LINK_LIBRARIES(  imgrect_zed
                         ${OpenCV_LIBS}
                         ${G2O_LIBRARIES}
                         ${Boost_LIBRARIES}
                         csparse
-                        cxsparse)
+                        cxsparse
+                        )
 
 ADD_EXECUTABLE( imgrect_waterloo
                 src/imgrect_waterloo.cpp)

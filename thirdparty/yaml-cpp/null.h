@@ -9,6 +9,7 @@
 
 #include "yaml-cpp/dll.h"
 #include <string>
+#include <iostream>
 
 namespace YAML {
 class Node;

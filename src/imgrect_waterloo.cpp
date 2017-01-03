@@ -13,7 +13,10 @@
 using namespace cv;
 using namespace std;
 
-
+/**
+ * When reading from OpenCV, must be careful that the format of yaml and xml must be accurate
+ * This is very important
+ */
 
 int main( int argc, char** argv ){
 
