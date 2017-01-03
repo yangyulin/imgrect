@@ -7,7 +7,6 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
-#include <boost/filesystem.hpp>
 
 #include <iostream>
 
@@ -18,23 +17,14 @@ using namespace std;
 
 int main( int argc, char** argv ){
 
-
-
     string dir = "/home/linde/project/imgrect/data/waterloo/";
 
     namedWindow("Vision Before Rectification");
     namedWindow("Vision After Rectification");
 
     //read in the config file for waterloo data set
-    //string setting_file_leftcam = dir + "left.yaml";
+    string setting_file_leftcam = dir + "left.yaml";
     string setting_file_rightcam = dir + "right.yaml";
-
-    string setting_file_leftcam = "/home/linde/project/imgrect/data/waterloo/left.yaml";
-
-    cout<<"OK1"<<endl;
-
-    cout<<setting_file_leftcam<<endl;
-    cout<<setting_file_rightcam<<endl<<"OK1-2"<<endl;
 
     cv::FileStorage dataCalibLeft(setting_file_leftcam, cv::FileStorage::READ);
     cv::FileStorage dataCalibRight(setting_file_rightcam, cv::FileStorage::READ);
@@ -45,75 +35,24 @@ int main( int argc, char** argv ){
     }
 
     cv::Mat K_1, D_1, R_rect1, P_rect1;
-    cout<<K_1<<endl;
     cv::Mat K_2, D_2, R_rect2, P_rect2;
-    int cols_L, rows_L;
-    int cols_R, rows_R;
 
-    cout<<"OK1111"<<endl;
+    int cols_L = dataCalibLeft["image_width"];
+    int rows_L = dataCalibLeft["image_height"];
+    int cols_R = dataCalibRight["image_width"];
+    int rows_R = dataCalibRight["image_height"];
 
-    cols_L = dataCalibLeft["image_width"];
-    rows_L = dataCalibLeft["image_height"];
-    cout<<"OK2-1"<<endl;
     dataCalibLeft["camera_matrix"] >> K_1;
-    cout<<"OK2"<<endl;
     dataCalibLeft["distortion_coefficients"] >> D_1;
     dataCalibLeft["rectification_matrix"] >> R_rect1;
     dataCalibLeft["projection_matrix"] >> P_rect1;
-
-
     dataCalibRight["camera_matrix"] >> K_2;
     dataCalibRight["distortion_coefficients"] >> D_2;
     dataCalibRight["rectification_matrix"] >> R_rect2;
     dataCalibRight["projection_matrix"] >> P_rect2;
-    cols_R = dataCalibRight["image_width"];
-    rows_R = dataCalibRight["image_height"];
 
     Size S_rect1(cols_L,rows_L);
     Size S_rect2(cols_R,rows_R);
-
-    cout<<rows_L<<endl;
-    cout<<rows_R<<endl;
-
-    //hard-coded configuration data
-    /*
-    Mat K_1 = (Mat_<double>(3,3) << 652.391460, 0.000000, 457.341596,
-                                    0.000000, 652.071465, 325.524184,
-                                    0.000000, 0.000000, 1.000000);
-
-    Mat D_1 = (Mat_<double>(1,5) << -0.213114, 0.069305, 0.000911, 0.000970, 0.000000);
-
-    Mat R_rect1 = (Mat_<double>(3,3) << 0.997430, 0.004947, -0.071473,
-                                        -0.004523, 0.999971, 0.006096,
-                                        0.071501, -0.005757, 0.997424);
-
-    Mat P_rect1 = (Mat_<double>(3,4) << 642.715797, 0.000000, 486.408535, 0.000000,
-                                        0.000000, 642.715797, 316.962208, 0.000000,
-                                        0.000000, 0.000000, 1.000000, 0.000000);
-
-    Mat K_2 = (Mat_<double>(3,3) << 655.781575, 0.000000, 452.371020,
-                                    0.000000, 655.569496, 306.659392,
-                                    0.000000, 0.000000, 1.000000);
-
-
-
-    Mat R_rect2 = (Mat_<double>(3,3) << 0.999914, 0.012610, 0.003556,
-                                        -0.012589, 0.999903, -0.005953,
-                                        -0.003631, 0.005907, 0.999976);
-
-
-
-    Mat P_rect2 = (Mat_<double>(3,4) << 642.715797, 0.000000, 486.408535, -647.671716,
-                                        0.000000, 642.715797, 316.962208, 0.000000,
-                                        0.000000, 0.000000, 1.000000, 0.000000);
-
-
-    Mat D_2 = (Mat_<double>(1,5) << -0.230124, 0.103053, -0.000446, -0.001376, 0.000000);
-
-
-    double cols = 900;
-    double rows = 600;
-     */
 
     for(int i = 0; i < 74; i++){
 
@@ -181,3 +120,43 @@ int main( int argc, char** argv ){
 
 return 0;
 }
+
+//hard-coded configuration data
+/*
+Mat K_1 = (Mat_<double>(3,3) << 652.391460, 0.000000, 457.341596,
+                                0.000000, 652.071465, 325.524184,
+                                0.000000, 0.000000, 1.000000);
+
+Mat D_1 = (Mat_<double>(1,5) << -0.213114, 0.069305, 0.000911, 0.000970, 0.000000);
+
+Mat R_rect1 = (Mat_<double>(3,3) << 0.997430, 0.004947, -0.071473,
+                                    -0.004523, 0.999971, 0.006096,
+                                    0.071501, -0.005757, 0.997424);
+
+Mat P_rect1 = (Mat_<double>(3,4) << 642.715797, 0.000000, 486.408535, 0.000000,
+                                    0.000000, 642.715797, 316.962208, 0.000000,
+                                    0.000000, 0.000000, 1.000000, 0.000000);
+
+Mat K_2 = (Mat_<double>(3,3) << 655.781575, 0.000000, 452.371020,
+                                0.000000, 655.569496, 306.659392,
+                                0.000000, 0.000000, 1.000000);
+
+
+
+Mat R_rect2 = (Mat_<double>(3,3) << 0.999914, 0.012610, 0.003556,
+                                    -0.012589, 0.999903, -0.005953,
+                                    -0.003631, 0.005907, 0.999976);
+
+
+
+Mat P_rect2 = (Mat_<double>(3,4) << 642.715797, 0.000000, 486.408535, -647.671716,
+                                    0.000000, 642.715797, 316.962208, 0.000000,
+                                    0.000000, 0.000000, 1.000000, 0.000000);
+
+
+Mat D_2 = (Mat_<double>(1,5) << -0.230124, 0.103053, -0.000446, -0.001376, 0.000000);
+
+
+double cols = 900;
+double rows = 600;
+ */
