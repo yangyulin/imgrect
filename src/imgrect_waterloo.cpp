@@ -25,8 +25,55 @@ int main( int argc, char** argv ){
     namedWindow("Vision Before Rectification");
     namedWindow("Vision After Rectification");
 
+    //read in the config file for waterloo data set
+    //string setting_file_leftcam = dir + "left.yaml";
+    string setting_file_rightcam = dir + "right.yaml";
 
+    string setting_file_leftcam = "/home/linde/project/imgrect/data/waterloo/left.yaml";
 
+    cout<<"OK1"<<endl;
+
+    cout<<setting_file_leftcam<<endl;
+    cout<<setting_file_rightcam<<endl;
+
+    cv::FileStorage dataCalibLeft("/home/linde/project/imgrect/data/waterloo/left.yaml", cv::FileStorage::READ);
+
+    cout<<"OK2"<<endl;
+    cv::FileStorage dataCalibRight(setting_file_rightcam.c_str(), cv::FileStorage::READ);
+
+    if(!dataCalibLeft.isOpened() && !dataCalibRight.isOpened() ) {
+        cerr << "Error, unable to open calibration file" << endl;
+        exit(EXIT_FAILURE);
+    }
+
+    cv::Mat K_1, D_1, R_rect1, P_rect1;
+    cv::Mat K_2, D_2, R_rect2, P_rect2;
+    int cols_L, rows_L;
+    int cols_R, rows_R;
+
+    cout<<"OK"<<endl;
+    dataCalibLeft["camera_matrix"] >> K_1;
+    dataCalibLeft["distortion_coefficients"] >> D_1;
+    dataCalibLeft["rectification_matrix"] >> R_rect1;
+    dataCalibLeft["projection_matrix"] >> P_rect1;
+    cols_L = dataCalibLeft["image_width"];
+    rows_L = dataCalibLeft["image_height"];
+
+    dataCalibRight["camera_matrix"] >> K_2;
+    dataCalibRight["distortion_coefficients"] >> D_2;
+    dataCalibRight["rectification_matrix"] >> R_rect2;
+    dataCalibRight["projection_matrix"] >> P_rect2;
+    cols_R = dataCalibRight["image_width"];
+    rows_R = dataCalibRight["image_height"];
+
+    Size S_rect1(cols_L,rows_L);
+    Size S_rect2(cols_R,rows_R);
+
+    cout<<rows_L<<endl;
+    cout<<rows_R<<endl;
+
+    //hard-coded configuration data
+    /*
     Mat K_1 = (Mat_<double>(3,3) << 652.391460, 0.000000, 457.341596,
                                     0.000000, 652.071465, 325.524184,
                                     0.000000, 0.000000, 1.000000);
@@ -63,9 +110,7 @@ int main( int argc, char** argv ){
 
     double cols = 900;
     double rows = 600;
-
-    Size S_rect1(cols,rows);
-    Size S_rect2(cols,rows);
+     */
 
     for(int i = 0; i < 74; i++){
 
