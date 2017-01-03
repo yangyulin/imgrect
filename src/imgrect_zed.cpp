@@ -9,6 +9,7 @@
 #include <opencv2/imgproc.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/range/iterator_range.hpp>
 #include <yaml-cpp/yaml.h>
 #include <boost/lexical_cast.hpp>
 
@@ -23,6 +24,7 @@ using namespace std;
 
 /**
  * learn how to read config from txt file with YAML-cpp lib
+ * be careful to check the data format. a tiny error will cause the crash
  * @param argc
  * @param argv
  * @return
@@ -42,8 +44,6 @@ int main( int argc, char** argv ){
     imshow("before Left", img1);
     imshow("before Right", img2);
 
-    waitKey(0);
-
     //try to use YAML-cpp to read the config file
     string dir = "/home/linde/project/imgrect/data/zed/";
 
@@ -58,7 +58,8 @@ int main( int argc, char** argv ){
             std::string str;
             stringstream s(it->second.as<std::string>());
             while(s >> str){
-                double val = (double) stod(str.c_str());
+                //cout<<str<<endl;
+                double val = stod(str.c_str());
                 calib_node[it->first.as<std::string>()].push_back(val);
             }
         }

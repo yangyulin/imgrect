@@ -6,7 +6,7 @@ find_package(G2O REQUIRED)
 find_package(OpenCV 3 REQUIRED)
 find_package(SuiteSparse REQUIRED)
 find_package(Eigen3 REQUIRED)
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS filesystem system)
 
 # Try to compile with c++11
 # http://stackoverflow.com/a/25836953
@@ -33,7 +33,7 @@ INCLUDE_DIRECTORIES(${CHOLMOD_INCLUDE_DIR}
                     include)
 
 ADD_EXECUTABLE( imgrect_zed
-                 src/imgrect_zed.cpp
+                src/imgrect_zed.cpp
                 ${thirdparty_sources})
 
 TARGET_LINK_LIBRARIES(  imgrect_zed
