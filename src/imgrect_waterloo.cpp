@@ -34,12 +34,10 @@ int main( int argc, char** argv ){
     cout<<"OK1"<<endl;
 
     cout<<setting_file_leftcam<<endl;
-    cout<<setting_file_rightcam<<endl;
+    cout<<setting_file_rightcam<<endl<<"OK1-2"<<endl;
 
-    cv::FileStorage dataCalibLeft("/home/linde/project/imgrect/data/waterloo/left.yaml", cv::FileStorage::READ);
-
-    cout<<"OK2"<<endl;
-    cv::FileStorage dataCalibRight(setting_file_rightcam.c_str(), cv::FileStorage::READ);
+    cv::FileStorage dataCalibLeft(setting_file_leftcam, cv::FileStorage::READ);
+    cv::FileStorage dataCalibRight(setting_file_rightcam, cv::FileStorage::READ);
 
     if(!dataCalibLeft.isOpened() && !dataCalibRight.isOpened() ) {
         cerr << "Error, unable to open calibration file" << endl;
@@ -47,17 +45,22 @@ int main( int argc, char** argv ){
     }
 
     cv::Mat K_1, D_1, R_rect1, P_rect1;
+    cout<<K_1<<endl;
     cv::Mat K_2, D_2, R_rect2, P_rect2;
     int cols_L, rows_L;
     int cols_R, rows_R;
 
-    cout<<"OK"<<endl;
+    cout<<"OK1111"<<endl;
+
+    cols_L = dataCalibLeft["image_width"];
+    rows_L = dataCalibLeft["image_height"];
+    cout<<"OK2-1"<<endl;
     dataCalibLeft["camera_matrix"] >> K_1;
+    cout<<"OK2"<<endl;
     dataCalibLeft["distortion_coefficients"] >> D_1;
     dataCalibLeft["rectification_matrix"] >> R_rect1;
     dataCalibLeft["projection_matrix"] >> P_rect1;
-    cols_L = dataCalibLeft["image_width"];
-    rows_L = dataCalibLeft["image_height"];
+
 
     dataCalibRight["camera_matrix"] >> K_2;
     dataCalibRight["distortion_coefficients"] >> D_2;
