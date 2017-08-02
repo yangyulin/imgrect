@@ -53,3 +53,23 @@ TARGET_LINK_LIBRARIES(  imgrect_waterloo
                         ${Boost_LIBRARIES}
                         csparse
                         cxsparse)
+
+ADD_EXECUTABLE( imgrect_zjudata
+        src/imgrect_zjudata.cpp )
+
+TARGET_LINK_LIBRARIES(  imgrect_zjudata
+        ${OpenCV_LIBS}
+        ${G2O_LIBRARIES}
+        ${Boost_LIBRARIES}
+        csparse
+        cxsparse)
+
+ADD_EXECUTABLE( imgrect_vi
+        src/imgrect_vi.cpp)
+
+TARGET_LINK_LIBRARIES(  imgrect_vi
+        ${OpenCV_LIBS}
+        ${G2O_LIBRARIES}
+        ${Boost_LIBRARIES}
+        csparse
+        cxsparse)
