@@ -73,3 +73,13 @@ TARGET_LINK_LIBRARIES(  imgrect_vi
         ${Boost_LIBRARIES}
         csparse
         cxsparse)
+
+ADD_EXECUTABLE( imgrect_3p
+        src/imgrect_3p.cpp)
+
+TARGET_LINK_LIBRARIES(  imgrect_3p
+        ${OpenCV_LIBS}
+        ${G2O_LIBRARIES}
+        ${Boost_LIBRARIES}
+        csparse
+        cxsparse)
